@@ -7,11 +7,7 @@ import { Toaster } from 'react-hot-toast'
 import { setSharedData } from './redux/booksSlice.js'
 
 window.addEventListener('storage', (event) => {
-  if (event.key === 'readingList' && event.newValue) {
-    const newState = JSON.parse(event.newValue)
-    store.dispatch(setSharedData(newState))
-    // store.dispatch(setSharedData(event))
-  }
+  store.dispatch(setSharedData(event))
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(

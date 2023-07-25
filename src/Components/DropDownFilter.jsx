@@ -48,6 +48,7 @@ const DropDownFilter = ({ genres }) => {
               className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-200 hover:text-gray-700"
               key={element}
               onClick={() => {
+                console.log(element)
                 dispatch(addDropDownFilter(element))
               }}
             >

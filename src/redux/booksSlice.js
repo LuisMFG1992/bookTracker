@@ -75,20 +75,14 @@ export const booksSlice = createSlice({
       localStorage.setItem('readingList', JSON.stringify(state.readingList))
     },
     setSharedData: (state, action) => {
-      state.readingList = action.payload
-      // state[action.payload.key] = JSON.parse(action.payload.newValue)
+      // state.readingList = action.payload
+      state[action.payload.key] = JSON.parse(action.payload.newValue)
     },
   },
 
   extraReducers: (builder) => {
     builder.addCase(fetchBooks.fulfilled, (state, action) => {
       state.booksList = action.payload
-
-      const setGenre = new Set(
-        state.booksList.map((element) => element.book.genre)
-      )
-      const filterGenre = [...setGenre]
-      state.genres = filterGenre
     })
     builder.addCase(saveBook.fulfilled, (state, action) => {
       state.books.push(action.payload)
