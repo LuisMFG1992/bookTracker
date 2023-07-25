@@ -40,7 +40,7 @@ function App() {
       )}
       <Navbar handelSidabar={handelSidabar} readingList={readingList} />
       <section className="w-full px-5 pt-20 sm:px-0 max-w-[2000px] min-h-screen flex items-center flex-col gap-2">
-        <div className="inline-flex gap-5 text-2xl p-4">
+        <div className="flex flex-col gap-5 sm:flex-row sm:gap-10 text-2xl p-4 text-center">
           <p>Libros disponibles: {booksList.length - readingList.length}</p>
           <p>Lista de lectura: {readingList.length}</p>
         </div>

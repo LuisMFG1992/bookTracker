@@ -16,7 +16,7 @@ const Navbar = ({ handelSidabar, readingList }) => {
         <div className="inline-flex">
           <IoIosSearch size={'2.5rem'} className="sm:hidden" />
         </div>
-        <div className="flex gap-5 bg-red-900 relative" onClick={handelSidabar}>
+        <div className="flex gap-5 relative" onClick={handelSidabar}>
           <img
             src={FavList}
             className="w-[35px] p-1"
