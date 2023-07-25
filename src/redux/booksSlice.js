@@ -3,6 +3,9 @@ import toast from 'react-hot-toast'
 
 export const fetchBooks = createAsyncThunk('books/fetch', async () => {
   const response = await fetch('../../data/books.json')
+
+  await new Promise((resolve) => setTimeout(resolve, 3000))
+
   const data = await response.json()
   return data.library
 })
@@ -75,7 +78,6 @@ export const booksSlice = createSlice({
       localStorage.setItem('readingList', JSON.stringify(state.readingList))
     },
     setSharedData: (state, action) => {
-      // state.readingList = action.payload
       state[action.payload.key] = JSON.parse(action.payload.newValue)
     },
   },
