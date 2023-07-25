@@ -27,11 +27,12 @@ const DisplayBooks = ({ booksList, selectedFilters, readingList }) => {
           >
             <img
               src={element.book.cover}
+              alt={`${element.book.title} book`}
               className="w-[200px] h-[300px]"
               onClick={() => {
                 addBook(element)
               }}
-            ></img>
+            />
 
             {readingList.some(
               (book) => book.book.ISBN === element.book.ISBN

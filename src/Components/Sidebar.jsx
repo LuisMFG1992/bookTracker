@@ -34,7 +34,11 @@ const Sidebar = ({ handelSidabar, readingList }) => {
                   className="max-w-[130px] max-h-[200px] relative overflow-hidden transition-transform active:scale-110"
                   onClick={() => dispatch(addRemoveBookReadingList(element))}
                 >
-                  <img src={element.book.cover} className="object-scale-down" />
+                  <img
+                    src={element.book.cover}
+                    alt={`sidebar ${element.book.title} cover`}
+                    className="object-scale-down"
+                  />
                   <AiFillStar
                     className="absolute top-1 right-1 text-purple-600 bg-white rounded-full border border-purple-500"
                     size={'1.5rem'}
