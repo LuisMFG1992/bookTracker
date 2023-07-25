@@ -28,7 +28,7 @@ const SearchBar = () => {
         <input
           type="search"
           id="default-search"
-          className="block w-full p-4 pl-10 text-sm rounded-lg
+          className="block w-full sm:w-[300px] md:w-[450px] p-4 pl-10 text-sm rounded-lg
              bg-gray-002 placeholder-gray-400 border-none text-white focus:ring-purple-600 focus:border-purple-600"
           placeholder="Search"
           required

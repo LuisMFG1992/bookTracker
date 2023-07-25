@@ -11,22 +11,20 @@ const Navbar = ({ handelSidabar, readingList }) => {
         <img src={logo} className="w-[130px] h-[40px]" alt="logo" />
       </a>
 
-      <div className="inline-flex justify-between items-center gap-4">
+      <div className="inline-flex justify-between items-center gap-4 sm:gap-2">
         <SearchBar />
-        <div className="flex gap-5" onClick={handelSidabar}>
-          <div className="inline-flex">
-            <IoIosSearch size={'2.5rem'} className="sm:hidden relative" />
-            <div className="absolute cursor-pointer right-2 top-12 bg-white border-2 border-purple-900 text-purple-900 w-[28px] font-bold rounded-full flex justify-center">
-              {readingList.length}
-            </div>
+        <div className="inline-flex">
+          <IoIosSearch size={'2.5rem'} className="sm:hidden" />
+        </div>
+        <div className="flex gap-5 bg-red-900 relative" onClick={handelSidabar}>
+          <img
+            src={FavList}
+            className="w-[35px] p-1"
+            alt="readindList button"
+          />
+          <div className="absolute cursor-pointer left-4 top-7 bg-white border-2 border-purple-900 text-purple-900 w-[28px] font-bold rounded-full flex justify-center">
+            {readingList.length}
           </div>
-          <button>
-            <img
-              src={FavList}
-              className="w-[35px] p-1"
-              alt="readindList button"
-            />
-          </button>
         </div>
       </div>
     </nav>
