@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import toast from 'react-hot-toast'
-import { getQtyBooksfiltered } from '../utils'
+import { getGenres, getQtyBooksfiltered } from '../utils'
 
 export const fetchBooks = createAsyncThunk('books/fetch', async () => {
   const response = await fetch('../../data/books.json')
@@ -55,15 +55,15 @@ export const booksSlice = createSlice({
       state.genres = state.genres.filter((genero) => genero !== action.payload)
       localStorage.setItem('genres', JSON.stringify(state.genres))
 
-      state.qtyBooksFiltered = getQtyBooksfiltered(
-        state.booksList,
-        state.genres
-      )
+      // state.qtyBooksFiltered = getQtyBooksfiltered(
+      //   state.booksList,
+      //   state.genres
+      // )
 
-      localStorage.setItem(
-        'qtyBooksFiltered',
-        JSON.stringify(state.qtyBooksFiltered)
-      )
+      // localStorage.setItem(
+      //   'qtyBooksFiltered',
+      //   JSON.stringify(state.qtyBooksFiltered)
+      // )
     },
     removeDropDownFilter: (state, action) => {
       state.genres.push(action.payload)
@@ -76,14 +76,14 @@ export const booksSlice = createSlice({
         'selectedFilters',
         JSON.stringify(state.selectedFilters)
       )
-      state.qtyBooksFiltered = getQtyBooksfiltered(
-        state.booksList,
-        state.genres
-      )
-      localStorage.setItem(
-        'qtyBooksFiltered',
-        JSON.stringify(state.qtyBooksFiltered)
-      )
+      // state.qtyBooksFiltered = getQtyBooksfiltered(
+      //   state.booksList,
+      //   state.genres
+      // )
+      // localStorage.setItem(
+      //   'qtyBooksFiltered',
+      //   JSON.stringify(state.qtyBooksFiltered)
+      // )
     },
     addRemoveBookReadingList: (state, action) => {
       const alreadyInTheList = state.readingList.some(
@@ -111,6 +111,9 @@ export const booksSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchBooks.fulfilled, (state, action) => {
       state.booksList = action.payload
+      if (!localStorage.getItem('genres')) {
+        state.genres = getGenres(state.booksList)
+      }
     })
     builder.addCase(saveBook.fulfilled, (state, action) => {
       state.books.push(action.payload)
