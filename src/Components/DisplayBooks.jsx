@@ -2,14 +2,10 @@ import { useDispatch } from 'react-redux'
 import { addRemoveBookReadingList } from '../redux/booksSlice'
 
 import { AiFillStar } from 'react-icons/ai'
+import { filterBooksByGenre } from '../utils'
 
 const DisplayBooks = ({ booksList, selectedFilters, readingList }) => {
   const dispatch = useDispatch()
-  function filterBooksByGenre(books, genres) {
-    return books.filter((libro) =>
-      genres.some((element) => element === libro.book.genre)
-    )
-  }
 
   const addBook = (book) => {
     dispatch(addRemoveBookReadingList(book))

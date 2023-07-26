@@ -3,33 +3,44 @@ import './App.css'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { fetchBooks } from './redux/booksSlice'
+import { fetchBooks, setIsLoading } from './redux/booksSlice'
 
 import DisplayBooks from './Components/DisplayBooks'
 import DropDownFilter from './Components/DropDownFilter'
 import DisplayFilters from './Components/DisplayFilters'
 import Navbar from './Components/Navbar'
 import Sidebar from './Components/Sidebar'
+import Loader from './Components/Loader'
 // import SliderFilter from './Components/SliderFilter'
 
 function App() {
   const dispatch = useDispatch()
 
+  const {
+    booksList,
+    selectedFilters,
+    genres,
+    readingList,
+    qtyBooksFiltered,
+    isLoading,
+  } = useSelector((state) => state.books)
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
-  const { booksList } = useSelector((state) => state.books)
-  const { selectedFilters } = useSelector((state) => state.books)
-  const { genres } = useSelector((state) => state.books)
-  const { readingList } = useSelector((state) => state.books)
-
-  useEffect(() => {
-    dispatch(fetchBooks())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const handelSidabar = () => {
     setIsSidebarOpen(!isSidebarOpen)
   }
+
+  const handelFetch = async () => {
+    dispatch(setIsLoading())
+    await dispatch(fetchBooks())
+    dispatch(setIsLoading())
+  }
+
+  useEffect(() => {
+    handelFetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <main className="w-full bg-[#202124] flex-col justify-center items-center min-h-screen">
@@ -39,21 +50,31 @@ function App() {
         </aside>
       )}
       <Navbar handelSidabar={handelSidabar} readingList={readingList} />
+
       <section className="w-full px-5 pt-20 sm:px-0 max-w-[2000px] min-h-screen flex items-center flex-col gap-2">
-        <div className="flex flex-col gap-5 sm:flex-row sm:gap-10 text-2xl p-4 text-center">
-          <p>Libros disponibles: {booksList.length - readingList.length}</p>
-          <p>Lista de lectura: {readingList.length}</p>
-        </div>
-        <DisplayFilters selectedFilters={selectedFilters} />
-        <div className="w-full flex gap-8 items-center justify-evenly flex-wrap sm:flex-row sm:justify-evenly">
-          {/* <SliderFilter /> */}
-          <DropDownFilter genres={genres} />
-        </div>
-        <DisplayBooks
-          booksList={booksList}
-          selectedFilters={selectedFilters}
-          readingList={readingList}
-        />
+        {isLoading !== true ? (
+          <>
+            <div className="flex flex-col gap-0 lg:flex-row lg:gap-10  text-2xl p-4 text-center">
+              <p>Total disponibles: {booksList.length - readingList.length}</p>
+              <p>Lista en lectura: {readingList.length}</p>
+              {selectedFilters.length !== 0 && (
+                <p>Libros filtrados disponibles: {qtyBooksFiltered}</p>
+              )}
+            </div>
+            <DisplayFilters selectedFilters={selectedFilters} />
+            <div className="w-full flex gap-8 items-center justify-evenly flex-wrap sm:flex-row sm:justify-evenly">
+              {/* <SliderFilter /> */}
+              <DropDownFilter genres={genres} />
+            </div>
+            <DisplayBooks
+              booksList={booksList}
+              selectedFilters={selectedFilters}
+              readingList={readingList}
+            />
+          </>
+        ) : (
+          <Loader />
+        )}
       </section>
     </main>
   )

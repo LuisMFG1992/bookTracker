@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import toast from 'react-hot-toast'
+import { getQtyBooksfiltered } from '../utils'
 
 export const fetchBooks = createAsyncThunk('books/fetch', async () => {
   const response = await fetch('../../data/books.json')
 
-  // await new Promise((resolve) => setTimeout(resolve, 3000))
+  await new Promise((resolve) => setTimeout(resolve, 3000))
 
   const data = await response.json()
   return data.library
@@ -37,6 +38,10 @@ export const booksSlice = createSlice({
     readingList: localStorage.getItem('readingList')
       ? JSON.parse(localStorage.getItem('readingList'))
       : [],
+    qtyBooksFiltered: localStorage.getItem('qtyBooksFiltered')
+      ? JSON.parse(localStorage.getItem('qtyBooksFiltered'))
+      : [],
+    isLoading: false,
   },
 
   reducers: {
@@ -49,6 +54,16 @@ export const booksSlice = createSlice({
 
       state.genres = state.genres.filter((genero) => genero !== action.payload)
       localStorage.setItem('genres', JSON.stringify(state.genres))
+
+      state.qtyBooksFiltered = getQtyBooksfiltered(
+        state.booksList,
+        state.genres
+      )
+
+      localStorage.setItem(
+        'qtyBooksFiltered',
+        JSON.stringify(state.qtyBooksFiltered)
+      )
     },
     removeDropDownFilter: (state, action) => {
       state.genres.push(action.payload)
@@ -60,6 +75,14 @@ export const booksSlice = createSlice({
       localStorage.setItem(
         'selectedFilters',
         JSON.stringify(state.selectedFilters)
+      )
+      state.qtyBooksFiltered = getQtyBooksfiltered(
+        state.booksList,
+        state.genres
+      )
+      localStorage.setItem(
+        'qtyBooksFiltered',
+        JSON.stringify(state.qtyBooksFiltered)
       )
     },
     addRemoveBookReadingList: (state, action) => {
@@ -80,6 +103,9 @@ export const booksSlice = createSlice({
     setSharedData: (state, action) => {
       state[action.payload.key] = JSON.parse(action.payload.newValue)
     },
+    setIsLoading: (state) => {
+      state.isLoading = !state.isLoading
+    },
   },
 
   extraReducers: (builder) => {
@@ -97,6 +123,7 @@ export const {
   removeDropDownFilter,
   addRemoveBookReadingList,
   setSharedData,
+  setIsLoading,
 } = booksSlice.actions
 
 export default booksSlice.reducer
