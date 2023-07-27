@@ -40,7 +40,7 @@ export const booksSlice = createSlice({
       : [],
     qtyBooksFiltered: localStorage.getItem('qtyBooksFiltered')
       ? JSON.parse(localStorage.getItem('qtyBooksFiltered'))
-      : [],
+      : 0,
     isLoading: false,
   },
 
@@ -55,15 +55,14 @@ export const booksSlice = createSlice({
       state.genres = state.genres.filter((genero) => genero !== action.payload)
       localStorage.setItem('genres', JSON.stringify(state.genres))
 
-      // state.qtyBooksFiltered = getQtyBooksfiltered(
-      //   state.booksList,
-      //   state.genres
-      // )
+      state.qtyBooksFiltered = getQtyBooksfiltered(
+        state.booksList,
+        state.genres
+      )
 
-      // localStorage.setItem(
-      //   'qtyBooksFiltered',
-      //   JSON.stringify(state.qtyBooksFiltered)
-      // )
+      const filtered = getQtyBooksfiltered(state.booksList, state.genres)
+
+      console.log(filtered)
     },
     removeDropDownFilter: (state, action) => {
       state.genres.push(action.payload)
@@ -76,14 +75,10 @@ export const booksSlice = createSlice({
         'selectedFilters',
         JSON.stringify(state.selectedFilters)
       )
-      // state.qtyBooksFiltered = getQtyBooksfiltered(
-      //   state.booksList,
-      //   state.genres
-      // )
-      // localStorage.setItem(
-      //   'qtyBooksFiltered',
-      //   JSON.stringify(state.qtyBooksFiltered)
-      // )
+
+      const filtered = getQtyBooksfiltered(state.booksList, state.genres)
+
+      console.log(filtered)
     },
     addRemoveBookReadingList: (state, action) => {
       const alreadyInTheList = state.readingList.some(
