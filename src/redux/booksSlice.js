@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import toast from 'react-hot-toast'
-import { getGenres, getQtyBooksfiltered } from '../utils'
+import { getFilterBooksByGenre, getGenres } from '../utils'
 
 export const fetchBooks = createAsyncThunk('books/fetch', async () => {
   const response = await fetch('../../data/books.json')
@@ -38,9 +38,9 @@ export const booksSlice = createSlice({
     readingList: localStorage.getItem('readingList')
       ? JSON.parse(localStorage.getItem('readingList'))
       : [],
-    qtyBooksFiltered: localStorage.getItem('qtyBooksFiltered')
-      ? JSON.parse(localStorage.getItem('qtyBooksFiltered'))
-      : 0,
+    filteredBooks: localStorage.getItem('filteredBooks')
+      ? JSON.parse(localStorage.getItem('filteredBooks'))
+      : [],
     isLoading: false,
   },
 
@@ -55,14 +55,11 @@ export const booksSlice = createSlice({
       state.genres = state.genres.filter((genero) => genero !== action.payload)
       localStorage.setItem('genres', JSON.stringify(state.genres))
 
-      state.qtyBooksFiltered = getQtyBooksfiltered(
+      state.filteredBooks = getFilterBooksByGenre(
         state.booksList,
-        state.genres
+        state.selectedFilters
       )
-
-      const filtered = getQtyBooksfiltered(state.booksList, state.genres)
-
-      console.log(filtered)
+      localStorage.setItem('filteredBooks', JSON.stringify(state.filteredBooks))
     },
     removeDropDownFilter: (state, action) => {
       state.genres.push(action.payload)
@@ -76,9 +73,11 @@ export const booksSlice = createSlice({
         JSON.stringify(state.selectedFilters)
       )
 
-      const filtered = getQtyBooksfiltered(state.booksList, state.genres)
-
-      console.log(filtered)
+      state.filteredBooks = getFilterBooksByGenre(
+        state.booksList,
+        state.selectedFilters
+      )
+      localStorage.setItem('filteredBooks', JSON.stringify(state.filteredBooks))
     },
     addRemoveBookReadingList: (state, action) => {
       const alreadyInTheList = state.readingList.some(

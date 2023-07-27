@@ -11,6 +11,7 @@ import DisplayFilters from './Components/DisplayFilters'
 import Navbar from './Components/Navbar'
 import Sidebar from './Components/Sidebar'
 import Loader from './Components/Loader'
+import { getFilteredBooksOnReadingList } from './utils'
 // import SliderFilter from './Components/SliderFilter'
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
     selectedFilters,
     genres,
     readingList,
-    qtyBooksFiltered,
+    filteredBooks,
     isLoading,
   } = useSelector((state) => state.books)
 
@@ -42,6 +43,11 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const FilteredBooksOnReadingList = getFilteredBooksOnReadingList(
+    readingList,
+    selectedFilters
+  )
+
   return (
     <main className="w-full bg-[#202124] flex-col justify-center items-center min-h-screen">
       {isSidebarOpen && (
@@ -58,11 +64,12 @@ function App() {
               <p>Total disponibles: {booksList.length - readingList.length}</p>
               <p>Lista en lectura: {readingList.length}</p>
 
-              <p>Libros filtrados disponibles: {qtyBooksFiltered.length}</p>
-
-              {/* {selectedFilters.length !== 0 && (
-                <p>Libros filtrados disponibles: {qtyBooksFiltered}</p>
-              )} */}
+              {filteredBooks.length !== 0 && (
+                <p>
+                  Libros filtrados disponibles:{' '}
+                  {filteredBooks.length - FilteredBooksOnReadingList.length}
+                </p>
+              )}
             </div>
             <DisplayFilters selectedFilters={selectedFilters} />
             <div className="w-full flex gap-8 items-center justify-evenly flex-wrap sm:flex-row sm:justify-evenly">
@@ -71,8 +78,8 @@ function App() {
             </div>
             <DisplayBooks
               booksList={booksList}
-              selectedFilters={selectedFilters}
               readingList={readingList}
+              filteredBooks={filteredBooks}
             />
           </>
         ) : (

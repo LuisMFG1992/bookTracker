@@ -2,20 +2,17 @@ import { useDispatch } from 'react-redux'
 import { addRemoveBookReadingList } from '../redux/booksSlice'
 
 import { AiFillStar } from 'react-icons/ai'
-import { filterBooksByGenre } from '../utils'
 
-const DisplayBooks = ({ booksList, selectedFilters, readingList }) => {
+const DisplayBooks = ({ booksList, readingList, filteredBooks }) => {
   const dispatch = useDispatch()
 
   const addBook = (book) => {
     dispatch(addRemoveBookReadingList(book))
   }
 
-  const filterBooks = filterBooksByGenre(booksList, selectedFilters)
-
   return (
     <div className="flex flex-wrap gap-4 justify-center items-center">
-      {(selectedFilters.length === 0 ? booksList : filterBooks).map(
+      {(filteredBooks.length === 0 ? booksList : filteredBooks).map(
         (element) => (
           <button
             key={element.book.ISBN}
