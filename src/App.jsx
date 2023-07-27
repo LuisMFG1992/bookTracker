@@ -57,9 +57,12 @@ function App() {
             <div className="flex flex-col gap-0 lg:flex-row lg:gap-10  text-2xl p-4 text-center">
               <p>Total disponibles: {booksList.length - readingList.length}</p>
               <p>Lista en lectura: {readingList.length}</p>
-              {selectedFilters.length !== 0 && (
+
+              <p>Libros filtrados disponibles: {qtyBooksFiltered.length}</p>
+
+              {/* {selectedFilters.length !== 0 && (
                 <p>Libros filtrados disponibles: {qtyBooksFiltered}</p>
-              )}
+              )} */}
             </div>
             <DisplayFilters selectedFilters={selectedFilters} />
             <div className="w-full flex gap-8 items-center justify-evenly flex-wrap sm:flex-row sm:justify-evenly">
