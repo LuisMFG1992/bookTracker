@@ -13,7 +13,7 @@ window.addEventListener('storage', (event) => {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <Toaster
-      position="top-center"
+      position="top-left"
       reverseOrder={false}
       toastOptions={{
         success: {

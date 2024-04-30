@@ -5,7 +5,7 @@ import { getFilterBooksByGenre, getGenres } from '../utils'
 export const fetchBooks = createAsyncThunk('books/fetch', async () => {
   const response = await fetch('../../data/books.json')
 
-  // await new Promise((resolve) => setTimeout(resolve, 3000))
+  // await new Promise((resolve) => setTimeout(resolve, 100000))
 
   const data = await response.json()
   return data.library

@@ -40,6 +40,10 @@ function App() {
 
   useEffect(() => {
     handelFetch()
+
+    return () => {
+      window.removeEventListener('storage', () => {})
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -49,7 +53,7 @@ function App() {
   )
 
   return (
-    <main className="w-full bg-[#202124] flex-col justify-center items-center min-h-screen">
+    <main className="w-full  flex-col bg-[#202124] justify-center items-center min-h-screen">
       {isSidebarOpen && (
         <aside className="absolute top-0">
           <Sidebar handelSidabar={handelSidabar} readingList={readingList} />
@@ -57,7 +61,11 @@ function App() {
       )}
       <Navbar handelSidabar={handelSidabar} readingList={readingList} />
 
-      <section className="w-full px-5 pt-20 sm:px-0 max-w-[2000px] min-h-screen flex items-center flex-col gap-2">
+      <section
+        className={`w-full px-5 pt-20 sm:px-0 max-w-[2000px] min-h-screen flex ${
+          isLoading && 'justify-center'
+        } items-center flex-col gap-2`}
+      >
         {isLoading !== true ? (
           <>
             <div className="flex flex-col gap-0 lg:flex-row lg:gap-10  text-2xl p-4 text-center">
